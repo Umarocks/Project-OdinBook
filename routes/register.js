@@ -24,9 +24,6 @@ router.post("/", async (req, res) => {
   } else {
     console.log("userExist");
   }
-  //   await User.deleteMany({ membershipStatus: "active" });
-  //   const all = await User.find({ membershipStatus: "active" });
-  //   console.log(all);
   res.send("register post");
 });
 module.exports = router;
