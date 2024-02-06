@@ -1,13 +1,30 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../Schema/user");
 
-// define the home page route
-router.get("/", (req, res) => {
-  res.send("Birds home page");
-});
-// define the about route
-router.get("/about", (req, res) => {
-  res.send("About birds");
-});
+router.get("/", async (req, res) => {
+  const { username, password, email, firstName, lastName, membershipStatus } =
+    req.body;
 
+  const newUser = new User({
+    username: username,
+    password: password,
+    email: email,
+    firstName: firstName,
+    lastName: lastName,
+    membershipStatus: membershipStatus,
+  });
+  const userExist = await User.findOne({
+    $and: [{ username: username }, { password: password }],
+  });
+  console.log(userExist);
+  if (!userExist) {
+    res.write("User not found");
+    console.log("User Not Found");
+  } else {
+    res.write("User found");
+    console.log("Login Successful");
+  }
+  res.send();
+});
 module.exports = router;
