@@ -8,9 +8,10 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
+require('./LocalJS/localStratergy.js'); 
 
-const login = require("./routes/login");
-const register = require("./routes/register");
+//Router
+const auth = require("./routes/Auth.js");
 const app = express();
 
 mongoose.connect("mongodb://localhost:27017/mydb");
@@ -25,8 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/login", login);
-app.use("/register", register);
+app.use("/auth", auth);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
