@@ -30,20 +30,8 @@ router.post("/register",async (req, res) => {
 });
 
 
-router.get("/login", passport.authenticate('local'), async (req, res) => {
-  const { username, password, email, firstName, lastName, membershipStatus } =
-    req.body;
-
-  const newUser = new User({
-    username: username,
-    password: password,
-    email: email,
-    firstName: firstName,
-    lastName: lastName,
-    membershipStatus: membershipStatus,
-  });
+router.get("/login", passport.authenticate('local'), async (req, res) => {  
   
-  console.log(userExist);
   if (!userExist) {
     res.write("User not found");
     console.log("User Not Found");
