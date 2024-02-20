@@ -1,7 +1,7 @@
 const passport = require('passport')
 const {Strategy} = require('passport-local')
 const User = require("../Schema/user");
-
+const passwordUtil = require('../utils/helper')
 
 passport.use(new Strategy({
     usernameField: 'username',
@@ -13,11 +13,11 @@ passport.use(new Strategy({
         done(new Error ('Please enter username and password , Missing Credential'),null)
     }
     const userExist = await User.findOne({
-    $or: [{ username: username }, { password: password }],
+    $or: [{ username: username }, { password: passwordUtil.hashPassword(password) }],
     });
     if (!userExist) { throw new Error("Incorrect Credentials") }
     if (userExist) {
-        const isValid = comparePassword(password, userExist.password);
+        const isValid = passwordUtil.comparePassword(password, userExist.password);
         if (!isValid) {
             console.log("Invalid password")
             done(null,null)
