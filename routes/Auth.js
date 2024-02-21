@@ -32,13 +32,6 @@ router.post("/register",async (req, res) => {
 
 router.get("/login", passport.authenticate('local'), async (req, res) => {  
   
-  if (!userExist) {
-    res.write("User not found");
-    console.log("User Not Found");
-  } else {
-    res.write("User found");
-    console.log("Login Successful");
-  }
   res.send();
 });
 

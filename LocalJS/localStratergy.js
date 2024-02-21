@@ -9,24 +9,29 @@ passport.use(new Strategy({
 }, async (username,password,done) => {
     console.log(username)
     console.log(password)
+
     if (!username || !password) {
-        done(new Error ('Please enter username and password , Missing Credential'),null)
+        return done(new Error('Please enter username and password, Missing Credential'), null);
     }
-    const userExist = await User.findOne({
-    $or: [{ username: username }, { password: passwordUtil.hashPassword(password) }],
-    });
-    if (!userExist) { throw new Error("Incorrect Credentials") }
-    if (userExist) {
+
+    try {
+        const userExist = await User.findOne({ username: username });
+        
+        if (!userExist) {
+            return done(null, false, { message: 'Incorrect username' });
+        }
+
         const isValid = passwordUtil.comparePassword(password, userExist.password);
+        console.log(isValid)
         if (!isValid) {
-            console.log("Invalid password")
-            done(null,null)
+            return done(null, false, { message: 'Incorrect password' });
         }
-        else {
+        if (isValid) {
             console.log("Valid password")
-            done(null,userExist)
+            return done(null, userExist);
         }
+    } catch (error) {
+        return done(error);
     }
-    console.log(userExist)
 
 }))
