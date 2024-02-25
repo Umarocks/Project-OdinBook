@@ -5,10 +5,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
-const passport = require("passport");
-const localStrategy = require("passport-local").Strategy;
-const bcrypt = require("bcrypt");
-require('./LocalJS/localStratergy.js'); 
+const session = require("express-session");
+require("./LocalJS/localStratergy.js");
 
 //Router
 const auth = require("./routes/Auth.js");
@@ -20,6 +18,14 @@ mongoose.connect("mongodb://localhost:27017/mydb");
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+app.use(
+  session({
+    secret: "umarbolte", // Replace with a secure key
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: true },
+  })
+);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
