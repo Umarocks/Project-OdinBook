@@ -6,6 +6,7 @@ const logger = require("morgan");
 const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const passport = require("passport");
 require("./LocalJS/localStratergy.js");
 
 //Router
@@ -23,9 +24,9 @@ app.use(
     secret: "umarbolte", // Replace with a secure key
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true },
   })
 );
+app.use(passport.session());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
