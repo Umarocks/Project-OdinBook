@@ -41,7 +41,20 @@ router.get(
 );
 
 router.get("/", (req, res) => {
-  console.log(req.user.id);
-  res.send(req.user.username);
+  if (req.user) {
+    res.write(req.user);
+  } else {
+    res.write("HOME PAGE");
+  }
+  res.send();
 });
 module.exports = router;
+
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/auth/");
+  });
+});
