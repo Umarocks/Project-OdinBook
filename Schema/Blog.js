@@ -8,7 +8,7 @@ const blogSchema = new mongoose.Schema(
     },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 messageSchema.virtual("when").get(function () {
