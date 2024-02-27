@@ -7,6 +7,7 @@ const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
+const hbs = require("hbs");
 require("./LocalJS/localStratergy.js");
 
 //Router
@@ -16,8 +17,9 @@ const app = express();
 mongoose.connect("mongodb://localhost:27017/mydb");
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+
+app.set("view engine", "hbs");
+app.set("views", "./views");
 
 app.use(
   session({
