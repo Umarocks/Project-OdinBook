@@ -32,12 +32,13 @@ router.post(
   "/login",
   passport.authenticate("local", {
     failureRedirect: "/auth/login",
-    successRedirect: "/home",
+    successRedirect: "/auth/home",
     failureMessage: true,
   }),
   async (req, res) => {
-    res.send("login post");
-    next();
+    if (req.isAuthenticated()) {
+      res.redirect("/auth/home");
+    }
   }
 );
 router.get("/home", (req, res, next) => {
@@ -48,13 +49,14 @@ router.get("/login", async (req, res) => {
   res.render("loginPage");
 });
 
-module.exports = router;
-
-router.get("/logout", (req, res, next) => {
-  req.logout((err) => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/auth/");
+router.post("/logout", (req, res, next) => {
+  res.clearCookie("connect.sid");
+  req.logout(function (err) {
+    console.log(err);
+    req.session.destroy(function (err) {
+      res.redirect("/auth/login");
+    });
   });
 });
+
+module.exports = router;
