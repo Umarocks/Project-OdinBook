@@ -28,26 +28,26 @@ router.post("/register", async (req, res) => {
   res.send("register post");
 });
 
-router.get(
+router.post(
   "/login",
   passport.authenticate("local", {
-    failureRedirect: "/login",
+    failureRedirect: "/auth/login",
+    successRedirect: "/home",
     failureMessage: true,
   }),
   async (req, res) => {
-    console.log(req.user.id);
-    res.redirect("/auth/");
+    res.send("login post");
+    next();
   }
 );
-
-router.get("/", (req, res) => {
-  if (req.user) {
-    res.write(req.user);
-  } else {
-    res.write("HOME PAGE");
-  }
-  res.send();
+router.get("/home", (req, res, next) => {
+  res.render("Loggedin");
 });
+
+router.get("/login", async (req, res) => {
+  res.render("loginPage");
+});
+
 module.exports = router;
 
 router.get("/logout", (req, res, next) => {
