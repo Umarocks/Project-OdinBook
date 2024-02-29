@@ -25,8 +25,8 @@ passport.deserializeUser(async (_id, done) => {
 passport.use(
   new Strategy(
     {
-      usernameField: "username",
-      passportField: "password",
+      username: "username",
+      passport: "password",
     },
     async (username, password, done) => {
       console.log(username);
