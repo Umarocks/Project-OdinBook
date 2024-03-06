@@ -49,7 +49,7 @@ router.get("/login", async (req, res) => {
   res.render("loginPage");
 });
 
-router.post("/logout", (req, res, next) => {
+router.get("/logout", (req, res, next) => {
   res.clearCookie("connect.sid");
   req.logout(function (err) {
     console.log(err);
